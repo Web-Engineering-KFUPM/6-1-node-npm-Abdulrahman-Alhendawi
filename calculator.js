@@ -1,3 +1,7 @@
+import { add, subtract, multiply, divide } from "./utils/operations.js";
+import { parseNumbers, isValidOperation } from "./utils/parser.js";
+import _ from "lodash";
+
 /*
 ===================================================================
 Node.js & npm Lab — CLI Calculator
@@ -45,46 +49,48 @@ TODO 2: Parse Command Line Arguments (in calculator.js)
 ===================================================================
 Goal: Extract the operation and numbers from command line arguments.
 
-Hints:
-- Use process.argv to get command line arguments
-- process.argv is an array where:
-  - process.argv[0] is the path to Node.js
-  - process.argv[1] is the path to your script
-  - process.argv[2] is the first argument (operation)
-  - process.argv[3+] are the numbers
+// Get the operation (add, subtract, multiply, divide) from command line
+const operation = process.argv[2];
 
-Example:
-  const operation = process.argv[2];
-  const numbers = process.argv.slice(3);
+// Get all the numbers after the operation argument
+const numbers = process.argv.slice(3);
 
 ===================================================================
 TODO 3: Validate Input and Calculate (in calculator.js)
 ===================================================================
-Goal: Validate the operation and numbers, then perform the calculation.
 
-Hints:
-- Check if operation is valid using isValidOperation()
-- Parse the numbers using parseNumbers()
-- Use a switch statement or if/else to call the appropriate operation function
-- Display the result using console.log()
-
-Example structure:
-  if (!isValidOperation(operation)) {
+// First, validate the operation
+if (!isValidOperation(operation)) {
     console.log("Invalid operation. Use: add, subtract, multiply, or divide");
-    return;
-  }
+    process.exit(1);
+}
 
-  const nums = parseNumbers(numbers);
-  let result;
+// Parse and validate the numbers
+const nums = parseNumbers(numbers);
+if (nums.length < 2) {
+    console.log("Please provide at least two numbers to perform the calculation");
+    process.exit(1);
+}
 
-  switch (operation) {
+// Perform the calculation based on the operation
+let result;
+switch (operation) {
     case "add":
-      result = add(nums);
-      break;
-    // ... other cases
-  }
+        result = add(nums);
+        break;
+    case "subtract":
+        result = subtract(nums);
+        break;
+    case "multiply":
+        result = multiply(nums);
+        break;
+    case "divide":
+        result = divide(nums);
+        break;
+}
 
-  console.log(`Result: ${result}`);
+// Display the result
+console.log(`Result: ${result}`);
 
 ===============================================================
 TODO 4: Create Math Operation Functions (in utils/operations.js)
