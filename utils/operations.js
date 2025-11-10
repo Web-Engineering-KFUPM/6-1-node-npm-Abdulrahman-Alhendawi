@@ -1,16 +1,22 @@
 export function add(numbers) {
-  return {/*write code here*/}
+  return numbers.reduce((sum, num) => sum + num, 0);
 }
 
 export function subtract(numbers) {
-  return {/*write code here*/}
+  const [first, ...rest] = numbers;
+  return rest.reduce((result, num) => result - num, first);
 }
 
 export function multiply(numbers) {
-  return {/*write code here*/}
+  return numbers.reduce((product, num) => product * num, 1);
 }
 
 export function divide(numbers) {
-  return {/*write code here*/}
+  const [first, ...rest] = numbers;
+  // Check for division by zero
+  if (rest.some(num => num === 0)) {
+    return "Error: Division by zero";
+  }
+  return rest.reduce((result, num) => result / num, first);
 }
 

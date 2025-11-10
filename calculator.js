@@ -58,31 +58,39 @@ const numbers = process.argv.slice(3);
 ===================================================================
 TODO 3: Validate Input and Calculate (in calculator.js)
 ===================================================================
-Goal: Validate the operation and numbers, then perform the calculation.
 
-Hints:
-- Check if operation is valid using isValidOperation()
-- Parse the numbers using parseNumbers()
-- Use a switch statement or if/else to call the appropriate operation function
-- Display the result using console.log()
-
-Example structure:
-  if (!isValidOperation(operation)) {
+// First, validate the operation
+if (!isValidOperation(operation)) {
     console.log("Invalid operation. Use: add, subtract, multiply, or divide");
-    return;
-  }
+    process.exit(1);
+}
 
-  const nums = parseNumbers(numbers);
-  let result;
+// Parse and validate the numbers
+const nums = parseNumbers(numbers);
+if (nums.length < 2) {
+    console.log("Please provide at least two numbers to perform the calculation");
+    process.exit(1);
+}
 
-  switch (operation) {
+// Perform the calculation based on the operation
+let result;
+switch (operation) {
     case "add":
-      result = add(nums);
-      break;
-    // ... other cases
-  }
+        result = add(nums);
+        break;
+    case "subtract":
+        result = subtract(nums);
+        break;
+    case "multiply":
+        result = multiply(nums);
+        break;
+    case "divide":
+        result = divide(nums);
+        break;
+}
 
-  console.log(`Result: ${result}`);
+// Display the result
+console.log(`Result: ${result}`);
 
 ===============================================================
 TODO 4: Create Math Operation Functions (in utils/operations.js)
